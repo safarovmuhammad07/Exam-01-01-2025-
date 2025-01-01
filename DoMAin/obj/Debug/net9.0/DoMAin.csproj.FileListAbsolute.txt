@@ -1,0 +1,11 @@
+C:\Users\Safarov\Desktop\Exam(01.01.25)\DoMAin\bin\Debug\net9.0\DoMAin.deps.json
+C:\Users\Safarov\Desktop\Exam(01.01.25)\DoMAin\bin\Debug\net9.0\DoMAin.dll
+C:\Users\Safarov\Desktop\Exam(01.01.25)\DoMAin\bin\Debug\net9.0\DoMAin.pdb
+C:\Users\Safarov\Desktop\Exam(01.01.25)\DoMAin\obj\Debug\net9.0\DoMAin.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Safarov\Desktop\Exam(01.01.25)\DoMAin\obj\Debug\net9.0\DoMAin.AssemblyInfoInputs.cache
+C:\Users\Safarov\Desktop\Exam(01.01.25)\DoMAin\obj\Debug\net9.0\DoMAin.AssemblyInfo.cs
+C:\Users\Safarov\Desktop\Exam(01.01.25)\DoMAin\obj\Debug\net9.0\DoMAin.csproj.CoreCompileInputs.cache
+C:\Users\Safarov\Desktop\Exam(01.01.25)\DoMAin\obj\Debug\net9.0\DoMAin.dll
+C:\Users\Safarov\Desktop\Exam(01.01.25)\DoMAin\obj\Debug\net9.0\refint\DoMAin.dll
+C:\Users\Safarov\Desktop\Exam(01.01.25)\DoMAin\obj\Debug\net9.0\DoMAin.pdb
+C:\Users\Safarov\Desktop\Exam(01.01.25)\DoMAin\obj\Debug\net9.0\ref\DoMAin.dll

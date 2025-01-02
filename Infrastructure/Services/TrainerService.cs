@@ -10,10 +10,23 @@ namespace Infrastructure.Services;
 
 public class TrainerService(Context context): ITrainerService
 {
-    public Task<Responce<List<ReadTrainerDto>>> GetTrainersAsync()
+     public async Task<Responce<List<ReadTrainerDto>>> GetTrainersAsync()
     {
-        throw new NotImplementedException();
+       
+        var res = await context.Trainers.ToListAsync();
+        var trainers = res.Select(x=>new ReadTrainerDto()
+        {
+            LastName = x.LastName,
+            Specialization = x.Specialization,
+            Status = x.Status,
+            FirstName = x.FirstName,
+            Phone = x.Phone
+        }).ToList();
+        if (trainers.Count == null)
+            return new Responce<List<ReadTrainerDto>>(HttpStatusCode.NotFound,"Not Found");
+        return new Responce<List<ReadTrainerDto>>(trainers);
     }
+    
 
     public async Task<Responce<Trainer>> GetTrainerByIdAsync(int id)
     {
@@ -43,13 +56,27 @@ public class TrainerService(Context context): ITrainerService
 
     }
 
-    public Task<Responce<UpdateTrainerDto>> UpdateTrainerAsync(UpdateTrainerDto trainer)
+    public async Task<Responce<string>> UpdateTrainerAsync(UpdateTrainerDto request)
     {
-        throw new NotImplementedException();
+        var res = await context.Trainers.FirstOrDefaultAsync(x => x.Id == request.Id);
+        if (res == null) return new Responce<string>(HttpStatusCode.InternalServerError,"Internal Server Error");
+        res.LastName = request.LastName;
+        res.Specialization = request.Specialization;
+        res.Status = request.Status;
+        res.FirstName = request.FirstName;
+        res.Phone= request.Phone;
+        var res2 = await context.SaveChangesAsync();
+        if (res2 == 0) return new Responce<string>(HttpStatusCode.NotFound,"Not Found");
+        return new Responce<string>("Updated");
     }
 
-    public Task<Responce<Trainer>> DeleteTrainerAsync(int id)
+    public async Task<Responce<string>> DeleteTrainerAsync(int id)
     {
-        throw new NotImplementedException();
+        var trainer = await context.Trainers.FirstOrDefaultAsync(x => x.Id == id);
+        if (trainer == null) return new Responce<string>(HttpStatusCode.InternalServerError,"Internal Server Error");
+        context.Trainers.Remove(trainer);
+        var res = await context.SaveChangesAsync();
+        if (res == 0) return new Responce<string>(HttpStatusCode.NotFound, "Not Found");
+        else return new Responce<string>("Deleted");
     }
 }

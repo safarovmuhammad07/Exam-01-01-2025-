@@ -12,27 +12,22 @@ public class WorkoutSessionService(Context context):IWorkoutSessionSessionServic
 {
     public async Task<Responce<List<ReadWorkoutSesionBaseDto>>> GetWorkoutSessionsAsync()
     {
-        var courses = context.WorkoutSessions
-            .Include(c=>c.Workout)
-            .AsEnumerable();
-        
-        var dto = courses.Select(c => new ReadWorkoutSesionBaseDto()
+        var res = await context.WorkoutSessions.ToListAsync();
+        var workoutSessions = res.Select(x=>new ReadWorkoutSesionBaseDto()
         {
-            SessionDate = c.SessionDate,
-            WorkoutId = c.Workout.Id,
-            StartTime = c.StartTime,
-            EndTime = c.EndTime,
-            MaxCapacity = c.MaxCapacity,
-            CurrentParticipant = c.CurrentParticipant,
-            Comment = c.Comment,
-            CreatedAt = c.CreatedAt,
-            TrainerId = c.TrainerId,
-            Client = c.Client,
-            ClientId = c.ClientId,
-            Workout = c.Workout
+            WorkoutId = x.WorkoutId,
+            ClientId = x.ClientId,
+            TrainerId = x.TrainerId,
+            Comment = x.Comment,
+            CreatedAt = x.CreatedAt,
+            EndTime = x.EndTime,
+            StartTime = x.StartTime,
+            MaxCapacity = x.MaxCapacity,
+            SessionDate = x.SessionDate
         }).ToList();
-
-        return new Responce<List<ReadWorkoutSesionBaseDto>>(dto);
+        if (workoutSessions.Count == null)
+            return new Responce<List<ReadWorkoutSesionBaseDto>>(HttpStatusCode.NotFound,"Not Found");
+        return new Responce<List<ReadWorkoutSesionBaseDto>>(workoutSessions);
     }
 
     
@@ -63,8 +58,12 @@ public class WorkoutSessionService(Context context):IWorkoutSessionSessionServic
         throw new NotImplementedException();
     }
 
-    public Task<Responce<WorkoutSession>> DeleteWorkoutSessionAsync(int id)
+    public async Task<Responce<WorkoutSession>> DeleteWorkoutSessionAsync(int id)
     {
-        throw new NotImplementedException();
+        var workoutSession = await context.WorkoutSessions.FirstOrDefaultAsync(x => x.Id == id);
+        if (workoutSession == null) return new Responce<WorkoutSession>(HttpStatusCode.InternalServerError,"Internal Server Error");
+        context.WorkoutSessions.Remove(workoutSession);
+        var res = await context.SaveChangesAsync();
+        return res == 0 ? new Responce<WorkoutSession>(HttpStatusCode.NotFound, "Not Found") : new Responce<WorkoutSession>(HttpStatusCode.OK,"Deleted");
     }
 }

@@ -29,9 +29,7 @@ public record UpdateWorkoutSesionBaseDto : WorkoutSesionBaseDto
 public record ReadWorkoutSesionBaseDto : WorkoutSesionBaseDto
 {
     public int TrainerId { get; set; }
-    public  Tra
-        
-        iner Trainer { get; set; }
+    public  Trainer Trainer { get; set; }
     [ForeignKey("Client")]
     public int ClientId { get; set; }
     public  Client Client { get; set; }

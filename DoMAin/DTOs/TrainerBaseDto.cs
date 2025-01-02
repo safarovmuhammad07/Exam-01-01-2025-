@@ -27,5 +27,6 @@ public record UpdateTrainerDto : TrainerBaseDto
 
 public record ReadTrainerDto : TrainerBaseDto
 {
+    public int Id { get; set; }
     public List<Workout> Workouts { get; set; }
 }

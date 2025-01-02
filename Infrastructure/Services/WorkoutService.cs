@@ -10,9 +10,22 @@ namespace Infrastructure.Services;
 
 public class WorkoutService(Context context): IWorkoutService
 {
-    public Task<Responce<List<ReadWorkoutBaseDTO>>> GetWorkoutsAsync()
+    public async Task<Responce<List<ReadWorkoutBaseDTO>>> GetWorkoutsAsync()
     {
-        throw new NotImplementedException();
+        var res = await context.Workouts.ToListAsync();
+        var clients = res.Select(x=>new ReadWorkoutBaseDTO()
+        {
+            Description=x.Description,
+            Difficulty=x.Difficulty,
+            Duration=x.Duration,
+            MaxParticipants=x.MaxParticipants,
+            Name=x.Name,
+            IsActive=x.IsActive
+        }).ToList();
+        if (clients.Count == null)
+            return new Responce<List<ReadWorkoutBaseDTO>>(HttpStatusCode.NotFound,"Not Found");
+        return new Responce<List<ReadWorkoutBaseDTO>>(clients);
+
     }
 
     public async Task<Responce<Workout>> GetWorkoutByIdAsync(int id)
@@ -43,13 +56,26 @@ public class WorkoutService(Context context): IWorkoutService
 
     }
 
-    public Task<Responce<UddateWorkoutBaseDTO>> UpdateWorkoutAsync(UddateWorkoutBaseDTO workout)
+    public async Task<Responce<UddateWorkoutBaseDTO>> UpdateWorkoutAsync(UddateWorkoutBaseDTO request)
     {
-        throw new NotImplementedException();
+        var res = await context.Workouts.FirstOrDefaultAsync(x => x.Id == request.id);
+        if (res == null) return new Responce<UddateWorkoutBaseDTO>(HttpStatusCode.InternalServerError,"Internal Server Error");
+        res.Description=request.Description;
+        res.Difficulty=request.Difficulty;
+        res.Duration=request.Duration;
+        res.MaxParticipants=request.MaxParticipants;
+        res.Name=request.Name;
+        res.IsActive=request.IsActive;
+            var res2 = await context.SaveChangesAsync();
+        return res2 == 0 ? new Responce<UddateWorkoutBaseDTO>(HttpStatusCode.NotFound,"Not Found") : new Responce<UddateWorkoutBaseDTO>(HttpStatusCode.OK,"Updated");
     }
 
-    public Task<Responce<Workout>> DeleteWorkoutAsync(int id)
+    public  async Task<Responce<Workout>> DeleteWorkoutAsync(int id)
     {
-        throw new NotImplementedException();
+        var client = await context.Workouts.FirstOrDefaultAsync(x => x.Id == id);
+        if (client == null) return new Responce<Workout>(HttpStatusCode.InternalServerError,"Internal Server Error");
+        context.Workouts.Remove(client);
+        var res = await context.SaveChangesAsync();
+            return res == 0 ? new Responce<Workout>(HttpStatusCode.NotFound, "Not Found") : new Responce<Workout>(HttpStatusCode.OK,"Deleted");
     }
 }

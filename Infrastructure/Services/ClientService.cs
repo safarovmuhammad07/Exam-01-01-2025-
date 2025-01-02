@@ -23,7 +23,7 @@ public class ClientService(Context context):IClientService
             : new Responce<Client>(course);
     }
 
-    public async Task<Responce<CreateClientBaseDTO>> CreateClientAsync(CreateClientBaseDTO client)
+    public async Task<Responce<string>> CreateClientAsync(CreateClientBaseDTO client)
     {
         var course = new Client()
         {
@@ -38,18 +38,39 @@ public class ClientService(Context context):IClientService
         var result = await context.SaveChangesAsync();
 
         return result == 0
-            ? new Responce<CreateClientBaseDTO>(HttpStatusCode.InternalServerError, "WorkoutSession Internal Server Error")
-            : new Responce<CreateClientBaseDTO>(HttpStatusCode.Created, $"WorkoutSession Created Successfully");
+            ? new Responce<string>(HttpStatusCode.InternalServerError, "WorkoutSession Internal Server Error")
+            : new Responce<string>(HttpStatusCode.Created, $"WorkoutSession Created Successfully");
 
     }
 
-    public Task<Responce<UpdateClientBaseDTO>> UpdateClientAsync(UpdateClientBaseDTO client)
+    public  async Task<Responce<string>> UpdateClientAsync(UpdateClientBaseDTO dto)
     {
-        throw new NotImplementedException();
+        var x = await context.Clients.Include(v => v.WorkoutSessions).FirstOrDefaultAsync(c=>c.Id==dto.Id);
+        if (x == null)
+            return new Responce<string>(HttpStatusCode.NotFound , "Not Found");
+        
+        x.FirstName = dto.FirstName;
+        x.LastName = dto.LastName;
+        x.Phone = dto.Phone;
+        x.Email = dto.Email;
+        x.DoB = dto.DoB;
+        var result = await context.SaveChangesAsync();
+        return result == 0 
+            ? new Responce<string>(HttpStatusCode.InternalServerError, "Internal Server Error")
+            : new Responce<string>(HttpStatusCode.Created, "Client Updated");
+
     }
 
-    public Task<Responce<Client>> DeleteClientAsync(int id)
+    public async Task<Responce<Client>> DeleteClientAsync(int id)
     {
-        throw new NotImplementedException();
+        var x = await context.Clients.Include(v => v.WorkoutSessions).FirstOrDefaultAsync(c=>c.Id==id);
+        if (x == null)
+            return new Responce<Client>(HttpStatusCode.NotFound , "Not Found");
+        
+        context.Clients.Remove(x);
+        var result = await context.SaveChangesAsync();
+        return result == 0 
+            ? new Responce<Client>(HttpStatusCode.InternalServerError, "Internal Server Error")
+            : new Responce<Client>(HttpStatusCode.Created, "Client deleted");
     }
 }

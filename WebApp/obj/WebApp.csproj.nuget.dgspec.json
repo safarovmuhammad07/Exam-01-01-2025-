@@ -13,6 +13,7 @@
         "packagesPath": "C:\\Users\\Safarov\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\Safarov\\Desktop\\Exam(01.01.25)\\DoMAin\\obj\\",
         "projectStyle": "PackageReference",
+        "UsingMicrosoftNETSdk": false,
         "configFilePaths": [
           "C:\\Users\\Safarov\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
@@ -37,8 +38,7 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        },
-        "SdkAnalysisLevel": "9.0.100"
+        }
       },
       "frameworks": {
         "net9.0": {
@@ -72,6 +72,7 @@
         "packagesPath": "C:\\Users\\Safarov\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\Safarov\\Desktop\\Exam(01.01.25)\\Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
+        "UsingMicrosoftNETSdk": false,
         "configFilePaths": [
           "C:\\Users\\Safarov\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
@@ -100,8 +101,7 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        },
-        "SdkAnalysisLevel": "9.0.100"
+        }
       },
       "frameworks": {
         "net9.0": {
@@ -145,6 +145,7 @@
         "packagesPath": "C:\\Users\\Safarov\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\Safarov\\Desktop\\Exam(01.01.25)\\WebApp\\obj\\",
         "projectStyle": "PackageReference",
+        "UsingMicrosoftNETSdk": false,
         "configFilePaths": [
           "C:\\Users\\Safarov\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
@@ -173,8 +174,7 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        },
-        "SdkAnalysisLevel": "9.0.100"
+        }
       },
       "frameworks": {
         "net9.0": {
